@@ -18,11 +18,13 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from 'expo-router';
 import StockSearch from '../../components/StockSearch';
 import StockGraph from '../../components/StockGraph';
+import mockStockData from '../../mockData/mockStockData';
 
 export default function Market() {
   const layout = useWindowDimensions();
   const [searchResults, setSearchResults] = useState([]);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
+
   // console.log('🚀 ~ file: market.tsx:33 ~ Market ~ data:', data);
 
   const [index, setIndex] = React.useState(0);
@@ -35,7 +37,12 @@ export default function Market() {
 
   useEffect(() => {
     const fetchAPI = async () => {
-      setData(await fetchData());
+      const fetchedData = await fetchData();
+      console.log(
+        '🚀 ~ file: Market.tsx:40 ~ fetchAPI ~ fetchedData:',
+        fetchedData
+      );
+      setSearchResults(fetchedData);
     };
 
     fetchAPI();
@@ -123,45 +130,56 @@ export default function Market() {
 
   const navigation = useNavigation();
 
-  console.log('searchResults', searchResults);
-
-  const DataList = ({ data }) => (
+  const DataList = (props) => (
     <ScrollView>
-      {data.map((item) => (
-        <TouchableOpacity
-          key={item.symbol}
-          onPress={() => navigation.navigate('StockDetail', { stock: item })}
-        >
-          <View style={styles.listItem}>
-            <View>
-              <Text>Symbol: {item['1. symbol']}</Text>
-              <Text>Name: {item['2. name']}</Text>
-              <Text>Type: {item['3. type']}</Text>
-              <Text>Region: {item['4. region']}</Text>
-              <Text>Market Open: {item['5. marketOpen']}</Text>
-              <Text>Market Close: {item['6. marketClose']}</Text>
-              <Text>Timezone: {item['7. timezone']}</Text>
-              <Text>Currency: {item['8. currency']}</Text>
-              <Text>Match Score: {item['9. matchScore']}</Text>
-            </View>
-            <View>
-              {/* <Text style={styles.pricer}>{item.matchScore}</Text> */}
-              <StockGraph symbol={item['1. symbol']} />
-            </View>
-          </View>
-        </TouchableOpacity>
-      ))}
+      {props.data?.length === 0 ? (
+        <Text>No stocks</Text>
+      ) : (
+        props.data?.map((item, index) => {
+          if (!item) {
+            console.log('Undefined item at index', index);
+            return null; // Render nothing for this item.
+          }
+          return (
+            <TouchableOpacity
+              style={styles.wrapper}
+              key={index}
+              onPress={() =>
+                navigation.navigate('StockDetail', { stock: item })
+              }
+            >
+              <View style={styles.listItem}>
+                <View>
+                  <Text style={styles.ticker}>{item['01. symbol']}</Text>
+                  <Text style={styles.description}>
+                    {item['07. latest trading day']}
+                  </Text>
+                </View>
+                <View style={styles.graph}>
+                  <StockGraph symbol={item['01. symbol']} />
+                </View>
+                <View>
+                  <Text style={styles.pricer}>{item['05. price']}</Text>
+                  <Text style={styles.pricer}>
+                    {item['10. change percent']}
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          );
+        })
+      )}
     </ScrollView>
   );
 
   // const MainMarket = () => <MarketData data={data} />;
-  const MainMarket = () => <DataList data={searchResults} />;
+  const MainMarket = () => <DataList data={mockStockData} />;
 
-  const JuniorMarket = () => <DataList data={mokData} />;
+  const JuniorMarket = () => <DataList data={mockStockData} />;
 
-  const FxRate = () => <DataList data={mokData} />;
+  const FxRate = () => <DataList data={mockStockData} />;
 
-  const FunctionRate = () => <DataList data={mokData} />;
+  const FunctionRate = () => <DataList data={mockStockData} />;
 
   const renderScene = SceneMap({
     first: MainMarket,
@@ -283,12 +301,12 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   listItem: {
-    width: '100%',
+    width: '90%',
     paddingTop: 30,
     paddingBottom: 30,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     fontSize: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
@@ -316,5 +334,12 @@ const styles = StyleSheet.create({
 
     color: 'green',
     fontWeight: 'bold',
+  },
+  wrapper: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
