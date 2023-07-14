@@ -7,32 +7,21 @@ import {
   TextInput,
   FlatList,
   StyleSheet,
+  Touchable,
 } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 
 import { fetchData } from '../../api';
-
-const DataList = ({ data }) => (
-  <ScrollView>
-    {data.map((item) => (
-      <View key={item.id} style={styles.listItem}>
-        <View>
-          <Text style={styles.ticker}>{item.ticker}</Text>
-          <Text style={styles.description}>{item.description}</Text>
-        </View>
-        <View>
-          <Text style={styles.pricer}>{item.price}</Text>
-          <Text style={styles.pourcentage}>{item.pourcentage}</Text>
-        </View>
-      </View>
-    ))}
-  </ScrollView>
-);
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from 'expo-router';
+import StockSearch from '../../components/StockSearch';
+import StockGraph from '../../components/StockGraph';
 
 export default function Market() {
   const layout = useWindowDimensions();
+  const [searchResults, setSearchResults] = useState([]);
   const [data, setData] = useState(null);
   // console.log('🚀 ~ file: market.tsx:33 ~ Market ~ data:', data);
 
@@ -132,8 +121,41 @@ export default function Market() {
     },
   ];
 
+  const navigation = useNavigation();
+
+  console.log('searchResults', searchResults);
+
+  const DataList = ({ data }) => (
+    <ScrollView>
+      {data.map((item) => (
+        <TouchableOpacity
+          key={item.symbol}
+          onPress={() => navigation.navigate('StockDetail', { stock: item })}
+        >
+          <View style={styles.listItem}>
+            <View>
+              <Text>Symbol: {item['1. symbol']}</Text>
+              <Text>Name: {item['2. name']}</Text>
+              <Text>Type: {item['3. type']}</Text>
+              <Text>Region: {item['4. region']}</Text>
+              <Text>Market Open: {item['5. marketOpen']}</Text>
+              <Text>Market Close: {item['6. marketClose']}</Text>
+              <Text>Timezone: {item['7. timezone']}</Text>
+              <Text>Currency: {item['8. currency']}</Text>
+              <Text>Match Score: {item['9. matchScore']}</Text>
+            </View>
+            <View>
+              {/* <Text style={styles.pricer}>{item.matchScore}</Text> */}
+              <StockGraph symbol={item['1. symbol']} />
+            </View>
+          </View>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
+  );
+
   // const MainMarket = () => <MarketData data={data} />;
-  const MainMarket = () => <DataList data={mokData} />;
+  const MainMarket = () => <DataList data={searchResults} />;
 
   const JuniorMarket = () => <DataList data={mokData} />;
 
@@ -171,19 +193,7 @@ export default function Market() {
       </View>
       <Text style={styles.headerText}>Market</Text>
       <View style={styles.searchBarContainer}>
-        <View style={styles.searchBar}>
-          <Ionicons
-            name='search'
-            size={20}
-            color='gray'
-            style={styles.searchIcon}
-          />
-          <TextInput
-            style={styles.searchInput}
-            placeholder='Search'
-            placeholderTextColor='gray'
-          />
-        </View>
+        <StockSearch onResults={setSearchResults} />
       </View>
     </View>
   );

@@ -1,12 +1,8 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import { useEffect } from 'react';
+import SplashScreen from './Splash';
 
 export {
   // Catch any errors thrown by the Layout component.

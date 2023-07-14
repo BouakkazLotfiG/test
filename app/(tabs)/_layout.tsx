@@ -34,7 +34,7 @@ export default function TabLayout() {
         }}
       >
         <Tabs.Screen
-          name='portfolio'
+          name='Portfolio'
           options={{
             title: 'Portfolio',
 
@@ -42,7 +42,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name='market'
+          name='Market'
           options={{
             title: 'Market',
             tabBarIcon: ({ color }) => (
@@ -65,7 +65,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name='news'
+          name='News'
           options={{
             title: 'News',
             tabBarIcon: ({ color }) => (
