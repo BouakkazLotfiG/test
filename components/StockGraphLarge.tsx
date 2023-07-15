@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Button, TouchableOpacity, Text } from 'react-native';
 import { VictoryChart, VictoryLine, VictoryAxis } from 'victory-native';
+import RangeButton from './buttons/RangeButton';
 
 type StockData = {
   x: string;
   y: number;
 };
-
-const RangeButton = ({ onPress, text }) => (
-  <TouchableOpacity onPress={onPress} style={styles.RangeButtonContainer}>
-    <Text style={styles.RangeButtonText}>{text}</Text>
-  </TouchableOpacity>
-);
 
 const StockGraphLarge: React.FC = (props) => {
   const graphData = props.graphData;
@@ -126,23 +121,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 18,
-  },
-  RangeButtonContainer: {
-    backgroundColor: '#000000',
-    borderRadius: 50,
-
-    borderColor: '#aaa0a0',
-    borderWidth: 0.5,
-
-    paddingHorizontal: 12,
-    marginHorizontal: 5,
-  },
-  RangeButtonText: {
-    fontSize: 14,
-    color: 'white',
-    padding: 5,
-    fontFamily: 'Roboto-Regular',
-    alignSelf: 'center',
   },
 });
 

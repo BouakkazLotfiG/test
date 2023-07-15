@@ -15,18 +15,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import StockGraph from '../../components/StockGraph';
-import StockGraphLarge from '../../components/StockGraphLarge';
 
-const AppButton = ({ onPress, icon }) => (
-  <TouchableOpacity onPress={onPress} style={styles.buttonContainer}>
-    <FontAwesomeIcon icon={icon} color='black' size={22} />
-  </TouchableOpacity>
-);
-const AddButton = ({ onPress, text }) => (
-  <TouchableOpacity onPress={onPress} style={styles.AddButtonContainer}>
-    <Text style={styles.AddButtonText}>{text}</Text>
-  </TouchableOpacity>
-);
+//Components
+import StockGraphLarge from '../../components/StockGraphLarge';
+import TextButton from '../../components/buttons/TextButton';
+import IconButton from '../../components/buttons/IconButton';
 
 export default function Portfolio() {
   const navigation = useNavigation();
@@ -49,7 +42,7 @@ export default function Portfolio() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <AppButton
+        <IconButton
           onPress={() => navigation.navigate('Market')}
           icon={faChevronLeft}
         />
@@ -85,14 +78,6 @@ export default function Portfolio() {
       <View style={styles.graph}>
         <StockGraphLarge graphData={selectedStock.graph} />
       </View>
-      {/* 
-      <View style={styles.range}>
-        <RangeButton onPress={() => navigation.navigate('Market')} text='1D' />
-        <RangeButton onPress={() => navigation.navigate('Market')} text='1W' />
-        <RangeButton onPress={() => navigation.navigate('Market')} text='1M' />
-        <RangeButton onPress={() => navigation.navigate('Market')} text='3M' />
-        <RangeButton onPress={() => navigation.navigate('Market')} text='1Y' />
-      </View> */}
 
       <View style={styles.info}>
         <View style={styles.infoItem}>
@@ -121,7 +106,7 @@ export default function Portfolio() {
         </View>
       </View>
       <View style={styles.button}>
-        <AddButton
+        <TextButton
           onPress={() => navigation.navigate('Market')}
           text='Add to Portfolio'
         />
@@ -182,23 +167,7 @@ const styles = StyleSheet.create({
     color: 'red',
     fontFamily: 'Roboto-Regular',
   },
-  buttonContainer: {
-    backgroundColor: '#ffffff',
-    borderRadius: 100,
-    paddingVertical: 10,
-    borderColor: '#aaa0a0',
-    borderWidth: 0.5,
 
-    paddingHorizontal: 12,
-    margin: 5,
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'black',
-    fontFamily: 'Roboto-Regular',
-    alignSelf: 'center',
-    textTransform: 'uppercase',
-  },
   graph: {
     flexGrow: 1,
     // backgroundColor: 'blue',
@@ -228,22 +197,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: 'Roboto-ExtraBold',
   },
-  AddButtonContainer: {
-    backgroundColor: '#000000',
-    borderRadius: 10,
-    paddingVertical: 10,
-    borderColor: '#aaa0a0',
-    borderWidth: 0.5,
 
-    marginBottom: 20,
-    marginHorizontal: 25,
-  },
-  AddButtonText: {
-    fontSize: 18,
-    color: 'white',
-    fontFamily: 'Roboto-Regular',
-    alignSelf: 'center',
-  },
   range: {
     flexDirection: 'row',
     justifyContent: 'space-between',
