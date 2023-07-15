@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import {
-  StyleSheet,
-  ActivityIndicator,
-  Button,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-import Colors from '../../constants/Colors';
-import {
-  faChevronLeft,
-  faCircleHalfStroke,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import StockGraph from '../../components/StockGraph';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { StyleSheet, ActivityIndicator, Text, View } from 'react-native';
 
 //Components
 import StockGraphLarge from '../../components/StockGraphLarge';
 import TextButton from '../../components/buttons/TextButton';
 import IconButton from '../../components/buttons/IconButton';
 
+// Style
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { SIZES, FONTS, COLORS } from '../../constants/Theme';
+
+// Types
+import { StockData } from '../../types/index';
+
+type RootStackParamList = {
+  Portfolio: { stock: StockData }; // Define the stock property in the params
+  // Add other screen definitions if needed
+};
+type PortfolioRouteProp = RouteProp<RootStackParamList, 'Portfolio'>;
+
 export default function Portfolio() {
-  const navigation = useNavigation();
-  const route = useRoute();
-  const [selectedStock, setSelectedStock] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Initialize loading state
+  const navigation = useNavigation<any>();
+  const route = useRoute<PortfolioRouteProp>();
+  const [selectedStock, setSelectedStock] = useState<StockData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (route.params?.stock) {
@@ -41,44 +40,53 @@ export default function Portfolio() {
 
   return (
     <View style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
         <IconButton
           onPress={() => navigation.navigate('Market')}
           icon={faChevronLeft}
         />
         <View>
-          <Text style={styles.stock}>{selectedStock?.symbol}</Text>
+          <Text style={FONTS.h2}>{selectedStock?.symbol}</Text>
           <Text style={styles.desc}>{selectedStock?.quote['01. symbol']}</Text>
         </View>
       </View>
+
+      {/* Rate */}
       <View style={styles.rate}>
-        <Text style={styles.price}>${selectedStock.quote['05. price']}</Text>
+        <Text style={FONTS.h1}>${selectedStock?.quote['05. price']}</Text>
 
         <Text
           style={
-            selectedStock.quote['10. change percent']?.replace('%', '') > 0
+            parseFloat(
+              selectedStock?.quote['10. change percent']?.replace('%', '') ?? ''
+            ) > 0
               ? [styles.pourcentageUP, styles.percent]
               : [styles.pourcentageDOWN, styles.percent]
           }
         >
-          {+selectedStock.quote['10. change percent']?.replace('%', '') > 0
+          {selectedStock &&
+          +selectedStock.quote['10. change percent']?.replace('%', '') > 0
             ? '$' +
               '+' +
-              selectedStock.quote['09. change'] +
+              selectedStock?.quote['09. change'] +
               ' (' +
-              selectedStock.quote['10. change percent'] +
+              selectedStock?.quote['10. change percent'] +
               ')'
             : '$' +
-              selectedStock.quote['09. change'] +
+              selectedStock?.quote['09. change'] +
               ' (' +
-              selectedStock.quote['10. change percent'] +
+              selectedStock?.quote['10. change percent'] +
               ')'}
         </Text>
       </View>
+
+      {/* Graph */}
       <View style={styles.graph}>
-        <StockGraphLarge graphData={selectedStock.graph} />
+        <StockGraphLarge graphData={selectedStock?.graph} />
       </View>
 
+      {/* info */}
       <View style={styles.info}>
         <View style={styles.infoItem}>
           <Text style={styles.infoTitle}>Close Price</Text>
@@ -105,42 +113,37 @@ export default function Portfolio() {
           </Text>
         </View>
       </View>
-      <View style={styles.button}>
-        <TextButton
-          onPress={() => navigation.navigate('Market')}
-          text='Add to Portfolio'
-        />
-      </View>
+
+      {/* add to portfolio button */}
+
+      <TextButton
+        onPress={() => navigation.navigate('Market')}
+        text='Add to Portfolio'
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 40,
+    paddingTop: SIZES.padding * 2,
     flexGrow: 1,
     gap: 15,
-    backgroundColor: 'white',
-    width: '100%',
+    backgroundColor: COLORS.white,
+    width: SIZES.width,
     height: '100%',
   },
   header: {
     flexDirection: 'row',
     gap: 15,
     alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 25,
-  },
-  stock: {
-    fontSize: 23,
-    fontFamily: 'Roboto-Bold',
-    marginBottom: -5,
+    paddingVertical: SIZES.paddingVertical,
+    paddingHorizontal: SIZES.paddingHorizontal * 1.5,
   },
   desc: {
-    fontSize: 15,
-    color: '#aaa0a0',
+    marginTop: -5,
+    color: COLORS.gray,
   },
-
   rate: {
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -148,77 +151,42 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     paddingVertical: 10,
   },
-  price: {
-    fontSize: 30,
-    fontFamily: 'Roboto-ExtraBold',
-  },
+
   percent: {
-    fontSize: 12,
+    fontSize: SIZES.h4 * 0.9,
     textAlign: 'left',
-    fontFamily: 'Roboto-Bold',
+    fontFamily: FONTS.h4.fontFamily,
   },
 
   pourcentageUP: {
-    color: 'green',
-    fontFamily: 'Roboto-Regular',
+    color: COLORS.green,
   },
   pourcentageDOWN: {
-    textAlign: 'right',
-    color: 'red',
-    fontFamily: 'Roboto-Regular',
+    color: COLORS.red,
   },
 
   graph: {
     flexGrow: 1,
-    // backgroundColor: 'blue',
-    width: '100%',
   },
   info: {
     flexDirection: 'column',
     justifyContent: 'space-between',
     gap: 5,
-    paddingHorizontal: 27,
-
-    paddingBottom: 15,
+    paddingHorizontal: SIZES.paddingHorizontal * 2,
+    paddingBottom: SIZES.paddingVertical * 2,
   },
   infoItem: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '100%',
-    // backgroundColor: '#799355',
   },
   infoTitle: {
-    fontSize: 15,
-    color: '#686464',
+    fontSize: SIZES.h3,
+    color: COLORS.gray,
     fontFamily: 'Roboto-Medium',
   },
   infoValue: {
-    fontSize: 15,
+    fontSize: SIZES.h3,
     fontFamily: 'Roboto-ExtraBold',
-  },
-
-  range: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 18,
-    paddingVertical: 10,
-  },
-  RangeButtonContainer: {
-    backgroundColor: '#000000',
-    borderRadius: 50,
-
-    borderColor: '#aaa0a0',
-    borderWidth: 0.5,
-
-    paddingHorizontal: 12,
-    marginHorizontal: 5,
-  },
-  RangeButtonText: {
-    fontSize: 14,
-    color: 'white',
-    padding: 5,
-    fontFamily: 'Roboto-Regular',
-    alignSelf: 'center',
   },
 });

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.paddingHorizontal,
   },
   RangeButtonText: {
-    fontSize: FONTS.h4.fontSize,
+    fontSize: SIZES.h4,
     color: COLORS.white,
     padding: SIZES.padding * 0.25,
     alignSelf: 'center',

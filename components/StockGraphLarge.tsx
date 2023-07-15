@@ -1,19 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Button, TouchableOpacity, Text } from 'react-native';
 import { VictoryChart, VictoryLine, VictoryAxis } from 'victory-native';
+
+// Components
 import RangeButton from './buttons/RangeButton';
+
+// Style
+import { SIZES } from '../constants/Theme';
 
 type StockData = {
   x: string;
   y: number;
+  [key: string]: any;
 };
 
-const StockGraphLarge: React.FC = (props) => {
-  const graphData = props.graphData;
+interface StockGraphLargeProps {
+  graphData: StockData[] | any;
+}
 
-  const formattedData: StockData[] = Object.keys(graphData).map((date) => {
-    return { x: date, y: parseFloat(graphData[date]['4. close']) };
-  });
+const StockGraphLarge: React.FC<StockGraphLargeProps> = (props) => {
+  const { graphData } = props;
+
+  const formattedData: StockData[] = Object.keys(graphData).map(
+    (date: string) => {
+      return { x: date, y: parseFloat(graphData[date as any]['4. close']) };
+    }
+  );
 
   const [chartRange, setChartRange] = useState<{
     x: [number, number];
@@ -31,35 +43,34 @@ const StockGraphLarge: React.FC = (props) => {
   const handleRangeButtonPress = (range: string) => {
     let newRange: { x: [number, number]; y: [number, number] };
 
-    // Update the chart range based on the selected range
     switch (range) {
       case '1D':
         newRange = {
-          x: [0, 100], // Assuming x-axis represents time in hours
+          x: [0, 100],
           y: chartRange.y,
         };
         break;
       case '1W':
         newRange = {
-          x: [0, 150], // Assuming x-axis represents time in days
+          x: [0, 150],
           y: chartRange.y,
         };
         break;
       case '1M':
         newRange = {
-          x: [0, 200], // Assuming x-axis represents time in days
+          x: [0, 200],
           y: chartRange.y,
         };
         break;
       case '3M':
         newRange = {
-          x: [0, 40], // Assuming x-axis represents time in days
+          x: [0, 40],
           y: chartRange.y,
         };
         break;
       case '1Y':
         newRange = {
-          x: [0, formattedData.length - 1], // Assuming x-axis represents time in days
+          x: [0, formattedData.length - 1],
           y: chartRange.y,
         };
         break;
@@ -120,7 +131,7 @@ const styles = StyleSheet.create({
   range: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 18,
+    paddingHorizontal: SIZES.paddingHorizontal * 1.5,
   },
 });
 

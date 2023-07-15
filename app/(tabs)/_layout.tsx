@@ -12,10 +12,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-
 export default function TabLayout() {
   return (
     <>
@@ -65,20 +61,6 @@ export default function TabLayout() {
             tabBarLabelStyle: {
               fontFamily: 'Roboto-Bold',
             },
-            headerRight: () => (
-              <Link href='/modal' asChild>
-                <Pressable>
-                  {({ pressed }) => (
-                    <FontAwesome
-                      name='info-circle'
-                      size={25}
-                      color={Colors.text}
-                      style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                    />
-                  )}
-                </Pressable>
-              </Link>
-            ),
           }}
         />
         <Tabs.Screen

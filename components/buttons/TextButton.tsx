@@ -3,12 +3,10 @@ import {
   TouchableOpacity,
   Text,
   TouchableOpacityProps,
-  TextStyle,
   StyleSheet,
-  ViewStyle,
   GestureResponderEvent,
 } from 'react-native';
-import { SIZES, COLORS, FONTS } from '../../constants/Theme';
+import { SIZES, COLORS } from '../../constants/Theme';
 
 interface AddButtonProps extends TouchableOpacityProps {
   text: string;
@@ -32,7 +30,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 25,
   },
   AddButtonText: {
-    fontSize: FONTS.h3.fontSize,
+    fontSize: SIZES.h3,
     color: COLORS.white,
     alignSelf: 'center',
   },
