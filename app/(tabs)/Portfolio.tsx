@@ -27,11 +27,6 @@ const AddButton = ({ onPress, text }) => (
     <Text style={styles.AddButtonText}>{text}</Text>
   </TouchableOpacity>
 );
-const RangeButton = ({ onPress, text }) => (
-  <TouchableOpacity onPress={onPress} style={styles.RangeButtonContainer}>
-    <Text style={styles.RangeButtonText}>{text}</Text>
-  </TouchableOpacity>
-);
 
 export default function Portfolio() {
   const navigation = useNavigation();
@@ -65,22 +60,39 @@ export default function Portfolio() {
       </View>
       <View style={styles.rate}>
         <Text style={styles.price}>${selectedStock.quote['05. price']}</Text>
-        <Text style={styles.percent}>
-          {selectedStock['09. change']} (
-          {selectedStock.quote['10. change percent']})
+
+        <Text
+          style={
+            selectedStock.quote['10. change percent']?.replace('%', '') > 0
+              ? [styles.pourcentageUP, styles.percent]
+              : [styles.pourcentageDOWN, styles.percent]
+          }
+        >
+          {+selectedStock.quote['10. change percent']?.replace('%', '') > 0
+            ? '$' +
+              '+' +
+              selectedStock.quote['09. change'] +
+              ' (' +
+              selectedStock.quote['10. change percent'] +
+              ')'
+            : '$' +
+              selectedStock.quote['09. change'] +
+              ' (' +
+              selectedStock.quote['10. change percent'] +
+              ')'}
         </Text>
       </View>
       <View style={styles.graph}>
         <StockGraphLarge graphData={selectedStock.graph} />
       </View>
-
+      {/* 
       <View style={styles.range}>
         <RangeButton onPress={() => navigation.navigate('Market')} text='1D' />
         <RangeButton onPress={() => navigation.navigate('Market')} text='1W' />
         <RangeButton onPress={() => navigation.navigate('Market')} text='1M' />
         <RangeButton onPress={() => navigation.navigate('Market')} text='3M' />
         <RangeButton onPress={() => navigation.navigate('Market')} text='1Y' />
-      </View>
+      </View> */}
 
       <View style={styles.info}>
         <View style={styles.infoItem}>
@@ -90,13 +102,13 @@ export default function Portfolio() {
           </Text>
         </View>
         <View style={styles.infoItem}>
-          <Text style={styles.infoTitle}>Close Price</Text>
+          <Text style={styles.infoTitle}>Last trade price</Text>
           <Text style={styles.infoValue}>
             ${selectedStock?.quote['08. previous close']}
           </Text>
         </View>
         <View style={styles.infoItem}>
-          <Text style={styles.infoTitle}>Close Price</Text>
+          <Text style={styles.infoTitle}>Outstanding</Text>
           <Text style={styles.infoValue}>
             ${selectedStock?.quote['08. previous close']}
           </Text>
@@ -122,6 +134,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 40,
     flexGrow: 1,
+    gap: 15,
     backgroundColor: 'white',
     width: '100%',
     height: '100%',
@@ -135,8 +148,8 @@ const styles = StyleSheet.create({
   },
   stock: {
     fontSize: 23,
-    fontFamily: 'Rubik-ExtraBold',
-    marginBottom: -10,
+    fontFamily: 'Roboto-Bold',
+    marginBottom: -5,
   },
   desc: {
     fontSize: 15,
@@ -152,13 +165,23 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 30,
-    fontFamily: 'Rubik-ExtraBold',
+    fontFamily: 'Roboto-ExtraBold',
   },
   percent: {
-    fontSize: 15,
-    color: '#aaa0a0',
+    fontSize: 12,
+    textAlign: 'left',
+    fontFamily: 'Roboto-Bold',
   },
 
+  pourcentageUP: {
+    color: 'green',
+    fontFamily: 'Roboto-Regular',
+  },
+  pourcentageDOWN: {
+    textAlign: 'right',
+    color: 'red',
+    fontFamily: 'Roboto-Regular',
+  },
   buttonContainer: {
     backgroundColor: '#ffffff',
     borderRadius: 100,
@@ -172,7 +195,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     color: 'black',
-    fontWeight: 'bold',
+    fontFamily: 'Roboto-Regular',
     alignSelf: 'center',
     textTransform: 'uppercase',
   },
@@ -186,7 +209,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 5,
     paddingHorizontal: 27,
-    paddingVertical: 10,
+
     paddingBottom: 15,
   },
   infoItem: {
@@ -198,12 +221,12 @@ const styles = StyleSheet.create({
   },
   infoTitle: {
     fontSize: 15,
-    color: '#000000',
-    fontFamily: 'Rubik-Regular',
+    color: '#686464',
+    fontFamily: 'Roboto-Medium',
   },
   infoValue: {
     fontSize: 15,
-    fontFamily: 'Rubik-ExtraBold',
+    fontFamily: 'Roboto-ExtraBold',
   },
   AddButtonContainer: {
     backgroundColor: '#000000',
@@ -218,7 +241,7 @@ const styles = StyleSheet.create({
   AddButtonText: {
     fontSize: 18,
     color: 'white',
-    fontFamily: 'Rubik-Regular',
+    fontFamily: 'Roboto-Regular',
     alignSelf: 'center',
   },
   range: {
@@ -241,7 +264,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'white',
     padding: 5,
-    fontFamily: 'Rubik-Regular',
+    fontFamily: 'Roboto-Regular',
     alignSelf: 'center',
   },
 });

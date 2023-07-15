@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   stock: {
     fontSize: 23,
-    fontFamily: 'Rubik-ExtraBold',
+    fontFamily: 'Roboto-Bold',
     marginBottom: -10,
   },
   desc: {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 30,
-    fontFamily: 'Rubik-ExtraBold',
+    fontFamily: 'Roboto-Bold',
   },
   percent: {
     fontSize: 15,

@@ -67,9 +67,7 @@ export default function Market() {
               <View style={styles.listItem}>
                 <View style={{ width: '25%' }}>
                   <Text style={styles.ticker}>{item.symbol}</Text>
-                  <Text style={styles.description}>
-                    {item['07. latest trading day']}
-                  </Text>
+                  <Text style={styles.description}>Desription</Text>
                 </View>
                 <View style={{ width: '35%' }}>
                   <StockGraph graphData={item.graph} />
@@ -87,8 +85,9 @@ export default function Market() {
                     }
                   >
                     {+item.quote['09. change']?.replace('%', '') > 0
-                      ? '+' + item.quote['09. change']
-                      : item.quote['09. change']}
+                      ? '+' + item.quote['09. change'] + '%'
+                      : item.quote['09. change']}{' '}
+                    %
                   </Text>
                 </View>
               </View>
@@ -123,7 +122,7 @@ export default function Market() {
       indicatorStyle={styles.indicatorStyle}
       style={styles.tabBarStyle}
       renderLabel={({ route, focused, color }) => (
-        <Text style={{ fontFamily: 'Rubik-Regular', color, fontSize: 16 }}>
+        <Text style={{ fontFamily: 'Roboto-Regular', color, fontSize: 16 }}>
           {route.title}
         </Text>
       )}
@@ -187,7 +186,7 @@ const styles = StyleSheet.create({
   headerText: {
     width: '100%',
     fontSize: 44,
-    fontFamily: 'Rubik-ExtraBold',
+    fontFamily: 'Roboto-ExtraBold',
     textAlign: 'left',
 
     color: 'white',
@@ -210,7 +209,7 @@ const styles = StyleSheet.create({
     height: 70,
     paddingBottom: 5,
     fontSize: 30,
-    fontFamily: 'Rubik-ExtraBold',
+    fontFamily: 'Roboto-Bold',
   },
   listItem: {
     width: '100%',
@@ -228,17 +227,17 @@ const styles = StyleSheet.create({
   },
   ticker: {
     fontSize: 20,
-    fontFamily: 'Rubik-Bold',
+    fontFamily: 'Roboto-Bold',
     textAlign: 'left',
   },
   description: {
     textAlign: 'left',
-    fontFamily: 'Rubik-Regular',
+    fontFamily: 'Roboto-Regular',
     color: 'gray',
     opacity: 0.8,
   },
   pricer: {
-    fontFamily: 'Rubik-Bold',
+    fontFamily: 'Roboto-ExtraBold',
     fontSize: 20,
     textAlign: 'right',
   },
@@ -246,12 +245,12 @@ const styles = StyleSheet.create({
     textAlign: 'right',
 
     color: 'green',
-    fontFamily: 'Rubik-Regular',
+    fontFamily: 'Roboto-Bold',
   },
   pourcentageDOWN: {
     textAlign: 'right',
     color: 'red',
-    fontFamily: 'Rubik-Regular',
+    fontFamily: 'Roboto-Bold',
   },
   wrapper: {
     width: '100%',

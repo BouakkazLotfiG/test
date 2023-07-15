@@ -39,7 +39,7 @@ export default function TabLayout() {
           name='Portfolio'
           options={{
             tabBarLabelStyle: {
-              fontFamily: 'Rubik-Bold',
+              fontFamily: 'Roboto-Bold',
             },
 
             tabBarIcon: ({ color }) => (
@@ -63,7 +63,7 @@ export default function TabLayout() {
               />
             ),
             tabBarLabelStyle: {
-              fontFamily: 'Rubik-Bold',
+              fontFamily: 'Roboto-Bold',
             },
             headerRight: () => (
               <Link href='/modal' asChild>
@@ -89,7 +89,7 @@ export default function TabLayout() {
               <FontAwesomeIcon color={color} icon={faNewspaper} size={30} />
             ),
             tabBarLabelStyle: {
-              fontFamily: 'Rubik-Bold',
+              fontFamily: 'Roboto-Bold',
             },
           }}
         />

@@ -39,10 +39,11 @@ export default function RootLayout() {
 
 const fetchFonts = async () => {
   return await Font.loadAsync({
-    'Rubik-Bold': require('../assets/fonts/Rubik-Bold.ttf'),
-    'Rubik-ExtraBold': require('../assets/fonts/Rubik-ExtraBold.ttf'),
-    'Rubik-Light': require('../assets/fonts/Rubik-Light.ttf'),
-    'Rubik-Regular': require('../assets/fonts/Rubik-Regular.ttf'),
+    'Roboto-ExtraBold': require('../assets/fonts/Roboto-ExtraBold.ttf'),
+    'Roboto-Bold': require('../assets/fonts/Roboto-Bold.ttf'),
+    'Roboto-Medium': require('../assets/fonts/Roboto-Medium.ttf'),
+    'Roboto-Regular': require('../assets/fonts/Roboto-Regular.ttf'),
+    'Roboto-Thin': require('../assets/fonts/Roboto-Thin.ttf'),
   });
 };
 
