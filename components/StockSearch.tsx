@@ -42,15 +42,13 @@ const StockSearch = (props) => {
 };
 
 const styles = StyleSheet.create({
-  searchBarContainer: {
-    width: '100%',
-    paddingHorizontal: 10,
-    marginTop: 10,
-  },
   searchBar: {
     flexDirection: 'row',
+    backgroundColor: '#ffffff',
+    opacity: 0.7,
     alignItems: 'center',
-    backgroundColor: '#F0F0F0',
+    justifyContent: 'space-between',
+    width: '100%',
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,

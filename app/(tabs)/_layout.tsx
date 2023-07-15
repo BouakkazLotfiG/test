@@ -3,17 +3,18 @@ import { Link, Tabs } from 'expo-router';
 import { Pressable, useColorScheme, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faMugSaucer } from '@fortawesome/free-solid-svg-icons/faMugSaucer';
 import Colors from '../../constants/Colors';
+import {
+  faCircleHalfStroke,
+  faMoneyBillTrendUp,
+  faNewspaper,
+} from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
 
 export default function TabLayout() {
   return (
@@ -21,11 +22,12 @@ export default function TabLayout() {
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: Colors.tabIconSelected,
+          headerShown: false,
           tabBarStyle: {
             backgroundColor: 'white',
 
-            height: 70,
-            paddingBottom: 5,
+            height: 90,
+            paddingBottom: 10,
           },
           tabBarItemStyle: {
             margin: 5,
@@ -36,9 +38,17 @@ export default function TabLayout() {
         <Tabs.Screen
           name='Portfolio'
           options={{
-            title: 'Portfolio',
+            tabBarLabelStyle: {
+              fontFamily: 'Rubik-Bold',
+            },
 
-            tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
+            tabBarIcon: ({ color }) => (
+              <FontAwesomeIcon
+                icon={faCircleHalfStroke}
+                color={color}
+                size={30}
+              />
+            ),
           }}
         />
         <Tabs.Screen
@@ -46,8 +56,15 @@ export default function TabLayout() {
           options={{
             title: 'Market',
             tabBarIcon: ({ color }) => (
-              <TabBarIcon name='arrows' color={color} />
+              <FontAwesomeIcon
+                color={color}
+                icon={faMoneyBillTrendUp}
+                size={30}
+              />
             ),
+            tabBarLabelStyle: {
+              fontFamily: 'Rubik-Bold',
+            },
             headerRight: () => (
               <Link href='/modal' asChild>
                 <Pressable>
@@ -69,8 +86,11 @@ export default function TabLayout() {
           options={{
             title: 'News',
             tabBarIcon: ({ color }) => (
-              <TabBarIcon name='circle' color={color} />
+              <FontAwesomeIcon color={color} icon={faNewspaper} size={30} />
             ),
+            tabBarLabelStyle: {
+              fontFamily: 'Rubik-Bold',
+            },
           }}
         />
       </Tabs>

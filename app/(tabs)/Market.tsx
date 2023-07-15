@@ -19,14 +19,15 @@ import { useNavigation } from 'expo-router';
 import StockSearch from '../../components/StockSearch';
 import StockGraph from '../../components/StockGraph';
 import mockStockData from '../../mockData/mockStockData';
+import { faBars, faBell } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 export default function Market() {
+  const [fontLoaded, setFontLoaded] = useState(false);
+
   const layout = useWindowDimensions();
   const [searchResults, setSearchResults] = useState([]);
   const [data, setData] = useState([]);
-
-  // console.log('🚀 ~ file: market.tsx:33 ~ Market ~ data:', data);
-
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: 'Main Market' },
@@ -38,95 +39,11 @@ export default function Market() {
   useEffect(() => {
     const fetchAPI = async () => {
       const fetchedData = await fetchData();
-      console.log(
-        '🚀 ~ file: Market.tsx:40 ~ fetchAPI ~ fetchedData:',
-        fetchedData
-      );
       setSearchResults(fetchedData);
     };
 
     fetchAPI();
   }, []);
-
-  const mokData = [
-    {
-      id: 1,
-      ticker: 'JMMBGL',
-      price: 'J$38.00',
-      description: 'JMMB Group Limited',
-      pourcentage: '0.00%',
-    },
-    {
-      id: 2,
-      ticker: 'JMMBGL',
-      price: 'J$38.00',
-      description: 'JMMB Group Limited',
-      pourcentage: '0.00%',
-    },
-    {
-      id: 3,
-      ticker: 'JMMBGL',
-      price: 'J$38.00',
-      description: 'JMMB Group Limited',
-      pourcentage: '0.00%',
-    },
-    {
-      id: 4,
-      ticker: 'JMMBGL',
-      price: 'J$38.00',
-      description: 'JMMB Group Limited',
-      pourcentage: '0.00%',
-    },
-    {
-      id: 5,
-      ticker: 'JMMBGL',
-      price: 'J$38.00',
-      description: 'JMMB Group Limited',
-      pourcentage: '0.00%',
-    },
-    {
-      id: 6,
-      ticker: 'JMMBGL',
-      price: 'J$38.00',
-      description: 'JMMB Group Limited',
-      pourcentage: '0.00%',
-    },
-    {
-      id: 7,
-      ticker: 'JMMBGL',
-      price: 'J$38.00',
-      description: 'JMMB Group Limited',
-      pourcentage: '0.00%',
-    },
-    {
-      id: 8,
-      ticker: 'JMMBGL',
-      price: 'J$38.00',
-      description: 'JMMB Group Limited',
-      pourcentage: '0.00%',
-    },
-    {
-      id: 9,
-      ticker: 'JMMBGL',
-      price: 'J$38.00',
-      description: 'JMMB Group Limited',
-      pourcentage: '0.00%',
-    },
-    {
-      id: 10,
-      ticker: 'JMMBGL',
-      price: 'J$38.00',
-      description: 'JMMB Group Limited',
-      pourcentage: '-0.00%',
-    },
-    {
-      id: 11,
-      ticker: 'JMMBGL',
-      price: 'J$38.00',
-      description: 'JMMB Group Limited',
-      pourcentage: '-0.00%',
-    },
-  ];
 
   const navigation = useNavigation();
 
@@ -136,6 +53,7 @@ export default function Market() {
         <Text>No stocks</Text>
       ) : (
         props.data?.map((item, index) => {
+          console.log('symbol ', item.quote);
           if (!item) {
             console.log('Undefined item at index', index);
             return null; // Render nothing for this item.
@@ -149,19 +67,30 @@ export default function Market() {
               }
             >
               <View style={styles.listItem}>
-                <View>
-                  <Text style={styles.ticker}>{item['01. symbol']}</Text>
+                <View style={{ width: '25%' }}>
+                  <Text style={styles.ticker}>{item.symbol}</Text>
                   <Text style={styles.description}>
                     {item['07. latest trading day']}
                   </Text>
                 </View>
-                <View style={styles.graph}>
-                  <StockGraph symbol={item['01. symbol']} />
+                <View style={{ width: '35%' }}>
+                  <StockGraph graphData={item.graph} />
                 </View>
-                <View>
-                  <Text style={styles.pricer}>{item['05. price']}</Text>
+                <View style={{ width: '40%' }}>
                   <Text style={styles.pricer}>
-                    {item['10. change percent']}
+                    {' '}
+                    $ {item.quote['05. price']}
+                  </Text>
+                  <Text
+                    style={
+                      +item.quote['09. change']?.replace('%', '') > 0
+                        ? styles.pourcentageUP
+                        : styles.pourcentageDOWN
+                    }
+                  >
+                    {+item.quote['09. change']?.replace('%', '') > 0
+                      ? '+' + item.quote['09. change']
+                      : item.quote['09. change']}
                   </Text>
                 </View>
               </View>
@@ -173,13 +102,13 @@ export default function Market() {
   );
 
   // const MainMarket = () => <MarketData data={data} />;
-  const MainMarket = () => <DataList data={mockStockData} />;
+  const MainMarket = () => <DataList data={searchResults} />;
 
-  const JuniorMarket = () => <DataList data={mockStockData} />;
+  const JuniorMarket = () => <DataList data={searchResults} />;
 
-  const FxRate = () => <DataList data={mockStockData} />;
+  const FxRate = () => <DataList data={searchResults} />;
 
-  const FunctionRate = () => <DataList data={mockStockData} />;
+  const FunctionRate = () => <DataList data={searchResults} />;
 
   const renderScene = SceneMap({
     first: MainMarket,
@@ -195,22 +124,22 @@ export default function Market() {
       tabStyle={styles.tabStyle}
       indicatorStyle={styles.indicatorStyle}
       style={styles.tabBarStyle}
+      renderLabel={({ route, focused, color }) => (
+        <Text style={{ fontFamily: 'Rubik-Regular', color, fontSize: 16 }}>
+          {route.title}
+        </Text>
+      )}
     />
   );
 
   const Header = () => (
     <View style={styles.headerContainer}>
       <View style={styles.headerNavigation}>
-        <Ionicons name='menu' size={24} color='white' style={styles.menuIcon} />
-        <Ionicons
-          name='notifications'
-          size={24}
-          color='white'
-          style={styles.notificationIcon}
-        />
+        <FontAwesomeIcon icon={faBars} size={23} color='white' />
+        <FontAwesomeIcon icon={faBell} size={23} color='white' />
       </View>
-      <Text style={styles.headerText}>Market</Text>
-      <View style={styles.searchBarContainer}>
+      <Text style={styles.headerText}>Markets</Text>
+      <View style={styles.searchContainer}>
         <StockSearch onResults={setSearchResults} />
       </View>
     </View>
@@ -238,21 +167,21 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   headerContainer: {
-    height: '35%',
+    height: '40%',
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
     gap: 10,
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 25,
     paddingBottom: 20,
+    paddingTop: 70,
     backgroundColor: Colors.tint,
   },
   headerNavigation: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 10,
   },
   menuIcon: {
     marginRight: 10,
@@ -260,80 +189,71 @@ const styles = StyleSheet.create({
   headerText: {
     width: '100%',
     fontSize: 44,
-    fontWeight: 'bold',
+    fontFamily: 'Rubik-ExtraBold',
     textAlign: 'left',
-    paddingHorizontal: 10,
+
     color: 'white',
+  },
+  searchContainer: {
+    width: '100%',
   },
   notificationIcon: {
     marginLeft: 10,
   },
-  searchBarContainer: {
-    width: '100%',
-    paddingHorizontal: 10,
-    marginTop: 10,
-  },
-  searchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F0F0F0',
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  searchIcon: {
-    marginRight: 5,
-  },
-  searchInput: {
-    flex: 1,
-    height: 40,
-  },
+
   tabStyle: {
     width: 'auto',
-    paddingHorizontal: 10,
   },
   indicatorStyle: {
-    backgroundColor: 'white',
+    backgroundColor: 'blue',
   },
   tabBarStyle: {
     backgroundColor: Colors.tint,
     height: 70,
     paddingBottom: 5,
+    fontSize: 30,
+    fontFamily: 'Rubik-ExtraBold',
   },
   listItem: {
-    width: '90%',
+    width: '100%',
     paddingTop: 30,
-    paddingBottom: 30,
+    paddingBottom: 15,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     fontSize: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+    paddingHorizontal: 25,
+
     // backgroundColor: 'black',
   },
   ticker: {
     fontSize: 20,
-
+    fontFamily: 'Rubik-Bold',
     textAlign: 'left',
-    fontWeight: 'bold',
   },
   description: {
     textAlign: 'left',
-
+    fontFamily: 'Rubik-Regular',
     color: 'gray',
     opacity: 0.8,
   },
   pricer: {
-    fontWeight: 'bold',
+    fontFamily: 'Rubik-Bold',
     fontSize: 20,
     textAlign: 'right',
   },
-  pourcentage: {
+  pourcentageUP: {
     textAlign: 'right',
 
     color: 'green',
-    fontWeight: 'bold',
+    fontFamily: 'Rubik-Regular',
+  },
+  pourcentageDOWN: {
+    textAlign: 'right',
+    color: 'red',
+    fontFamily: 'Rubik-Regular',
   },
   wrapper: {
     width: '100%',

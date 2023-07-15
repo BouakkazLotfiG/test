@@ -8,8 +8,8 @@ export default [
     '06. volume': '44297915',
     '07. latest trading day': '2023-07-13',
     '08. previous close': '118.9300',
-    '09. change': '5.6100',
-    '10. change percent': '4.7171%',
+    '09. change': '-5.6100',
+    '10. change percent': '-4.7171%',
   },
   {
     '01. symbol': 'IBM',
@@ -45,7 +45,7 @@ export default [
     '07. latest trading day': '2023-07-13',
     '08. previous close': '132.8400',
     '09. change': '1.0800',
-    '10. change percent': '0.8130%',
+    '10. change percent': '-0.8130%',
   },
   {
     '01. symbol': 'GOOGL',
