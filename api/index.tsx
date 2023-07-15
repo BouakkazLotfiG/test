@@ -1,6 +1,6 @@
 import { getGraph } from './getGraph';
 import { getQuote } from './getQuote';
-import { StockData, QuoteData, GraphData } from '../types';
+import { StockData } from '../types';
 import data from '../mockData/data';
 
 export const fetchData = async (): Promise<StockData[]> => {

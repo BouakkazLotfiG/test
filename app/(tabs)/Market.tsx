@@ -62,9 +62,7 @@ export default function Market() {
             <TouchableOpacity
               style={styles.wrapper}
               key={index}
-              onPress={() =>
-                navigation.navigate('StockDetail', { stock: item })
-              }
+              onPress={() => navigation.navigate('Portfolio', { stock: item })}
             >
               <View style={styles.listItem}>
                 <View style={{ width: '25%' }}>

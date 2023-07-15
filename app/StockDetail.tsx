@@ -14,6 +14,7 @@ import {
   faCircleHalfStroke,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import StockGraph from '../components/StockGraph';
 
 const AppButton = ({ onPress, icon }) => (
   <TouchableOpacity onPress={onPress} style={styles.buttonContainer}>
@@ -44,17 +45,19 @@ export default function StockDetail() {
       <View style={styles.header}>
         <AppButton onPress={() => navigation.goBack()} icon={faChevronLeft} />
         <View>
-          <Text style={styles.stock}>{selectedStock['01. symbol']}</Text>
-          <Text style={styles.desc}>
-            {selectedStock['07. latest trading day']}
-          </Text>
+          <Text style={styles.stock}>{selectedStock.symbol}</Text>
+          <Text style={styles.desc}>{selectedStock.quote['01. symbol']}</Text>
         </View>
       </View>
       <View style={styles.rate}>
-        <Text style={styles.price}>{selectedStock['05. price']}</Text>
+        <Text style={styles.price}>{selectedStock.quote['05. price']}</Text>
         <Text style={styles.percent}>
-          {selectedStock['09. change']} ({selectedStock['10. change percent']})
+          {selectedStock['09. change']} (
+          {selectedStock.quote['10. change percent']})
         </Text>
+      </View>
+      <View style={styles.graph}>
+        <StockGraph graphData={selectedStock.graph} />
       </View>
     </View>
   );
@@ -63,8 +66,9 @@ export default function StockDetail() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     width: '100%',
+    height: '100%',
   },
   header: {
     flexDirection: 'row',
@@ -115,5 +119,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
     textTransform: 'uppercase',
+  },
+  graph: {
+    flexGrow: 1,
+    backgroundColor: 'white',
+    width: '100%',
+    height: '100%',
   },
 });
