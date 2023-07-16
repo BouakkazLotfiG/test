@@ -1,3 +1,5 @@
+![Header Image](https://github.com/BouakkazLotfiG/test/blob/a0842c87683f9d6597967d212a8b6a6124e79e2c/investSky.png)
+
 # Frontend Test at InvestSky
 
 Hello, my name is Lotfi (لطفي). I appreciate the incredible opportunity provided to me for participating in this front-end test.
@@ -23,6 +25,6 @@ I hope my efforts reflect well in my work, and I eagerly anticipate the potentia
 Best regards,
 Lotfi
 
-## Screenshots of the app
+## Expo link : https://expo.dev/@lotfibouakkaz/stock-app
 
-![Screenshots of the application]([http://url/to/img.png](https://drive.google.com/file/d/1hUK2MiDp5Nr7vTr_ErL40yRmsarmeREp/view?usp=drive_link)https://drive.google.com/file/d/1hUK2MiDp5Nr7vTr_ErL40yRmsarmeREp/view?usp=drive_link)
+
