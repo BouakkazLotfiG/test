@@ -1,12 +1,9 @@
 import axios from 'axios';
 import { GraphData } from '../types';
-import Config from 'react-native-config';
-
-const API_KEY = Config.ALPHA_VANTAGE_API_KEY;
-console.log('API_KEY:', API_KEY);
+import { ALPHA_VANTAGE_API_KEY } from '@env';
 
 export const getGraph = async (symbol: string): Promise<GraphData> => {
-  const graphEndpoint = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=*${API_KEY}`;
+  const graphEndpoint = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${ALPHA_VANTAGE_API_KEY}`;
   try {
     const response = await axios.get(graphEndpoint);
 

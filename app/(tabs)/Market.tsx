@@ -26,6 +26,7 @@ export default function Market() {
   const [index, setIndex] = React.useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+
   const [routes] = React.useState([
     { key: 'first', title: 'Main Market' },
     { key: 'second', title: 'Junior Market' },
@@ -48,7 +49,11 @@ export default function Market() {
   const DataList = ({ data }: StockData) => (
     <ScrollView>
       {data?.length === 0 && isLoading ? (
-        <Text>No stocks</Text>
+        <View style={styles.container}>
+          <View style={styles.emptyStock}>
+            <Text style={styles.emptyStockText}>No Stock to display</Text>
+          </View>
+        </View>
       ) : (
         data?.map((item: StockData, index: number) => {
           // console.log('symbol ', item.quote);
@@ -222,5 +227,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  emptyStock: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyStockText: {
+    paddingVertical: 20,
+    fontSize: SIZES.h2,
+    fontFamily: 'Roboto-ExtraBold',
   },
 });

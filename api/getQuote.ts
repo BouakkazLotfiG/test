@@ -1,12 +1,9 @@
 import axios from 'axios';
 import { QuoteData } from '../types';
-import Config from 'react-native-config';
-
-const API_KEY = Config.ALPHA_VANTAGE_API_KEY;
-console.log('API_KEY:', API_KEY);
+import { ALPHA_VANTAGE_API_KEY } from '@env';
 
 export const getQuote = async (symbol: string): Promise<QuoteData> => {
-  const quoteEndpoint = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${API_KEY}`;
+  const quoteEndpoint = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${ALPHA_VANTAGE_API_KEY}`;
   try {
     const response = await axios.get(quoteEndpoint);
     const quote = response.data['Global Quote'];

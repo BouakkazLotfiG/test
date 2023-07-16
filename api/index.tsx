@@ -2,9 +2,14 @@ import { getGraph } from './getGraph';
 import { getQuote } from './getQuote';
 import { StockData } from '../types';
 import data from '../mockData/data';
+interface Props {
+  symbol?: string | string[];
+}
 
-export const fetchData = async (): Promise<StockData[]> => {
-  const stockSymbols = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'FB', 'TSLA', 'BRK-A'];
+export const fetchData = async (props: Props = {}): Promise<StockData[]> => {
+  const stockSymbols = props.symbol
+    ? props.symbol
+    : ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'FB', 'TSLA', 'BRK-A'];
 
   try {
     const stockData = await Promise.all(
