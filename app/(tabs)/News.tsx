@@ -6,8 +6,6 @@ import { SIZES, COLORS, FONTS } from '../../constants/Theme';
 import StockCard from '../../components/StockCard';
 
 export default function News() {
-  const dispatch = useDispatch();
-
   const stock = useSelector((state: RootState) => state.user);
   return (
     <SafeAreaView>

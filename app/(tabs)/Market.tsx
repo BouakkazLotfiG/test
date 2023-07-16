@@ -4,14 +4,10 @@ import {
   ScrollView,
   useWindowDimensions,
   Text,
-  TextInput,
-  FlatList,
   StyleSheet,
-  Touchable,
-  SafeAreaView,
 } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { selectedStock } from '../../slices/stockSlice';
 
 import { fetchData } from '../../api';
@@ -21,7 +17,7 @@ import StockSearch from '../../components/StockSearch';
 import StockGraph from '../../components/StockGraph';
 import Header from '../../components/Header';
 import { COLORS, SIZES } from '../../constants/Theme';
-import { RootState } from '../../store';
+import { StockData } from '../../types';
 
 export default function Market() {
   const layout = useWindowDimensions();
@@ -49,12 +45,12 @@ export default function Market() {
 
   const navigation = useNavigation();
 
-  const DataList = (props) => (
+  const DataList = ({ data }: StockData) => (
     <ScrollView>
-      {props.data?.length === 0 && isLoading ? (
+      {data?.length === 0 && isLoading ? (
         <Text>No stocks</Text>
       ) : (
-        props.data?.map((item, index) => {
+        data?.map((item: StockData, index: number) => {
           // console.log('symbol ', item.quote);
           if (!item) {
             console.log('Undefined item at index', index);
@@ -65,7 +61,10 @@ export default function Market() {
               style={styles.wrapper}
               key={index}
               onPress={() => {
-                navigation.navigate('Portfolio', { stock: item });
+                navigation.navigate(
+                  'Portfolio' as never,
+                  { stock: item } as never
+                );
                 dispatch(selectedStock(item));
               }}
             >
@@ -119,7 +118,7 @@ export default function Market() {
     fourth: FunctionRate,
   });
 
-  const renderTabBar = (props) => (
+  const renderTabBar = (props: any) => (
     <TabBar
       {...props}
       scrollEnabled
@@ -189,8 +188,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     paddingHorizontal: 25,
-
-    // backgroundColor: 'black',
   },
   ticker: {
     fontSize: 20,

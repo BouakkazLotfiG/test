@@ -1,9 +1,8 @@
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import StockSearch from './StockSearch';
 import { faBars, faBell } from '@fortawesome/free-solid-svg-icons';
-import { COLORS, FONTS, SIZES } from '../constants/Theme';
+import { COLORS, SIZES } from '../constants/Theme';
 
 export default function Header() {
   const [searchResults, setSearchResults] = useState([]);

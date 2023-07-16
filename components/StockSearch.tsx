@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import { View, TextInput, StyleSheet, SafeAreaView } from 'react-native';
-import { SIZES, FONTS, COLORS } from '../constants/Theme';
+import { TextInput, StyleSheet, SafeAreaView } from 'react-native';
+import { SIZES, COLORS } from '../constants/Theme';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 

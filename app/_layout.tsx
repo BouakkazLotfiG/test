@@ -6,15 +6,8 @@ import { Provider } from 'react-redux';
 import store from '../store';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
+export { ErrorBoundary } from 'expo-router';
 
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: 'Home',
-};
 export default function RootLayout() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 

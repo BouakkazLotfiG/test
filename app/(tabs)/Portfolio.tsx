@@ -120,7 +120,7 @@ export default function Portfolio() {
           </View>
 
           {/* Graph */}
-          <View style={styles.graph}>
+          <View>
             <StockGraphLarge graphData={selectedStock?.graph} />
           </View>
 
@@ -158,7 +158,7 @@ export default function Portfolio() {
             onPress={() => {
               navigation.navigate('Market');
               showToast(selectedStock?.symbol ?? '');
-              dispatch(addStock(selectedStock));
+              dispatch(addStock(selectedStock as StockData));
             }}
             text='Add to Portfolio'
           />

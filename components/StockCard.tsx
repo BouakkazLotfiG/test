@@ -6,7 +6,7 @@ import { removeStock } from '../slices/userSlice';
 import { useDispatch } from 'react-redux';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
-export default function StockCard({ stock }) {
+export default function StockCard({ stock }: any) {
   const dispatch = useDispatch();
   return (
     <View style={styles.container}>

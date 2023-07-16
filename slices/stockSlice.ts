@@ -31,7 +31,6 @@ export const stockSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { selectedStock } = stockSlice.actions;
 
 export default stockSlice.reducer;

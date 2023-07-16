@@ -8,7 +8,7 @@ export default function index() {
   const navigation = useNavigation();
 
   const handleNavigateToTabs = () => {
-    navigation.navigate('(tabs)', { screen: 'Market' });
+    navigation.navigate('(tabs)' as never, { screen: 'Market' } as never);
   };
 
   return (

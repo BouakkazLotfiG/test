@@ -8,7 +8,7 @@ export default function index() {
   const navigation = useNavigation();
 
   const handleNavigateToTabs = () => {
-    navigation.navigate('index');
+    navigation.navigate('index' as never);
   };
 
   return (

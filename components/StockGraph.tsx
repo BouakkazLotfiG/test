@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { VictoryChart, VictoryLine, VictoryAxis } from 'victory-native';
-import mockGraphData from '../mockData/mockGraphData';
+import { GraphData } from '../types';
 
 type StockData = {
   x: string;
   y: number;
 };
 
-const StockGraph: React.FC = (props) => {
+const StockGraph: React.FC = (props: GraphData) => {
   const [data, setData] = useState<StockData[]>([]);
   const graphData = props.graphData;
 
@@ -44,9 +44,7 @@ const StockGraph: React.FC = (props) => {
 
 const styles = StyleSheet.create({
   graph: {
-    // backgroundColor: 'black',
     flex: 1,
-
     flexDirection: 'row',
   },
 });

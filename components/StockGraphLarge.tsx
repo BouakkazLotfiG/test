@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Button, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { VictoryChart, VictoryLine, VictoryAxis } from 'victory-native';
 
 // Components
