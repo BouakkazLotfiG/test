@@ -20,8 +20,8 @@ export default function News() {
               <Text style={styles.header}>Added Stock</Text>
 
               <View style={styles.cardsContainer}>
-                {stock.map((item, index) => (
-                  <StockCard key={index} stock={item} />
+                {stock.map((item) => (
+                  <StockCard key={item.symbol} stock={item} />
                 ))}
               </View>
             </>
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
     gap: 15,
     backgroundColor: COLORS.white,
     width: SIZES.width,
-    height: SIZES.height,
   },
   header: {
     ...FONTS.h1,
@@ -48,10 +47,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.paddingHorizontal * 1.5,
   },
   cardsContainer: {
-    marginTop: SIZES.padding,
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     gap: 15,
     paddingHorizontal: SIZES.paddingHorizontal * 1.5,
+    paddingVertical: SIZES.paddingVertical,
   },
 });

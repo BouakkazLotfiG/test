@@ -4,6 +4,7 @@ import SplashScreen from './SplashScreen';
 import * as Font from 'expo-font';
 import { Provider } from 'react-redux';
 import store from '../store';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -51,6 +52,7 @@ function RootLayoutNav() {
         <Stack.Screen name='index' options={{ headerShown: false }} />
         <Stack.Screen name='[...missing]' options={{ headerShown: false }} />
       </Stack>
+      <Toast />
     </Provider>
   );
 }

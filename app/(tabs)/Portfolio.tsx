@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { addStock } from '../../slices/userSlice';
 import { useDispatch } from 'react-redux';
+import Toast from 'react-native-toast-message';
 
 //Components
 import StockGraphLarge from '../../components/StockGraphLarge';
@@ -42,6 +43,12 @@ export default function Portfolio() {
     navigation.navigate('(tabs)', { screen: 'Market' });
   };
 
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Successfully added stock to tour profile',
+    });
+  };
   useEffect(() => {
     setSelectedStock(stock);
     setIsLoading(false); // Set loading to false after fetching the data
@@ -150,7 +157,7 @@ export default function Portfolio() {
           <TextButton
             onPress={() => {
               navigation.navigate('Market');
-
+              showToast();
               dispatch(addStock(selectedStock));
             }}
             text='Add to Portfolio'
