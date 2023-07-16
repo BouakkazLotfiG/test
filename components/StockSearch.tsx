@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { ALPHA_VANTAGE_API_KEY } from '@env';
 import { fetchData } from '../api';
 import { searchResult } from '../mockData/searchResult';
+import data from '../mockData/data';
 
 interface StockSearchProps {
   onResults: (results: any) => void;
@@ -22,16 +23,18 @@ const StockSearch: React.FC<StockSearchProps> = (props) => {
         `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=${ALPHA_VANTAGE_API_KEY}`
       );
       const json = await response.json();
+      console.log('json', json);
 
       //if the api call reaches limit, use mock data
       if (!json) {
         console.log('using mock data');
-        props.onResults(searchResult.bestMatches);
+        const matching = data.filter((data) => data.symbol === query);
+        props.onResults(matching);
         return;
       }
       const symbol = json.bestMatches[0]['1. symbol'];
       const search = await fetchData(symbol);
-      props.onResults(search);
+      props.onResults(json);
     } catch (error) {
       console.error(error);
     }

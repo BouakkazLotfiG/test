@@ -47,64 +47,94 @@ export default function Market() {
   const navigation = useNavigation();
 
   const DataList = ({ data }: StockData) => (
-    <ScrollView>
-      {data?.length === 0 && isLoading ? (
-        <View style={styles.container}>
-          <View style={styles.emptyStock}>
-            <Text style={styles.emptyStockText}>No Stock to display</Text>
-          </View>
-        </View>
-      ) : (
-        data?.map((item: StockData, index: number) => {
-          // console.log('symbol ', item.quote);
-          if (!item) {
-            console.log('Undefined item at index', index);
-            return null; // Render nothing for this item.
-          }
-          return (
-            <TouchableOpacity
-              style={styles.wrapper}
-              key={index}
-              onPress={() => {
-                navigation.navigate(
-                  'Portfolio' as never,
-                  { stock: item } as never
-                );
-                dispatch(selectedStock(item));
-              }}
-            >
-              <View style={styles.listItem}>
-                <View style={{ width: '25%' }}>
-                  <Text style={styles.ticker}>{item.symbol}</Text>
-                  <Text style={styles.description}>Desription</Text>
-                </View>
-                <View style={{ width: '35%' }}>
-                  <StockGraph graphData={item.graph} />
-                </View>
-                <View style={{ width: '40%' }}>
-                  <Text style={styles.pricer}>
-                    {' '}
-                    $ {item.quote['05. price']}
-                  </Text>
-                  <Text
-                    style={
-                      +item.quote['09. change']?.replace('%', '') > 0
-                        ? styles.pourcentageUP
-                        : styles.pourcentageDOWN
-                    }
-                  >
-                    {+item.quote['09. change']?.replace('%', '') > 0
-                      ? '+' + item.quote['09. change'] + '%'
-                      : item.quote['09. change']}{' '}
-                    %
-                  </Text>
-                </View>
+    <>
+      {data.bestMatches &&
+        data.bestMatches.map((item: any, index: number) => {
+          <TouchableOpacity
+            style={styles.wrapper}
+            key={index}
+            onPress={() => {
+              navigation.navigate(
+                'Portfolio' as never,
+                { stock: item } as never
+              );
+              dispatch(selectedStock(item));
+            }}
+          >
+            <View style={styles.listItem}>
+              <View style={{ width: '25%' }}>
+                <Text style={styles.ticker}>{item['1. symbol']}</Text>
+                <Text style={styles.description}>{item['2. name']}</Text>
               </View>
-            </TouchableOpacity>
-          );
-        })
-      )}
-    </ScrollView>
+              <View style={{ width: '35%' }}>
+                {/* <StockGraph graphData={item.graph} /> */}
+              </View>
+              <View style={{ width: '40%' }}>
+                <Text style={styles.pricer}> $ {item['9. matchScore']}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>;
+        })}
+      <ScrollView>
+        {data?.length === 0 && isLoading ? (
+          <View style={styles.container}>
+            <View style={styles.emptyStock}>
+              <Text style={styles.emptyStockText}>No Stock to display</Text>
+            </View>
+          </View>
+        ) : (
+          data[0]?.graph &&
+          data?.map((item: StockData, index: number) => {
+            // console.log('symbol ', item.quote);
+            if (!item) {
+              console.log('Undefined item at index', index);
+              return null; // Render nothing for this item.
+            }
+            return (
+              <TouchableOpacity
+                style={styles.wrapper}
+                key={index}
+                onPress={() => {
+                  navigation.navigate(
+                    'Portfolio' as never,
+                    { stock: item } as never
+                  );
+                  dispatch(selectedStock(item));
+                }}
+              >
+                <View style={styles.listItem}>
+                  <View style={{ width: '25%' }}>
+                    <Text style={styles.ticker}>{item.symbol}</Text>
+                    <Text style={styles.description}>Desription</Text>
+                  </View>
+                  <View style={{ width: '35%' }}>
+                    <StockGraph graphData={item.graph} />
+                  </View>
+                  <View style={{ width: '40%' }}>
+                    <Text style={styles.pricer}>
+                      {' '}
+                      $ {item.quote['05. price']}
+                    </Text>
+                    <Text
+                      style={
+                        +item.quote['09. change']?.replace('%', '') > 0
+                          ? styles.pourcentageUP
+                          : styles.pourcentageDOWN
+                      }
+                    >
+                      {+item.quote['09. change']?.replace('%', '') > 0
+                        ? '+' + item.quote['09. change'] + '%'
+                        : item.quote['09. change']}{' '}
+                      %
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            );
+          })
+        )}
+      </ScrollView>
+    </>
   );
 
   // const MainMarket = () => <MarketData data={data} />;

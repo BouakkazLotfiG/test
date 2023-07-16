@@ -7,6 +7,7 @@ export const getQuote = async (symbol: string): Promise<QuoteData> => {
   try {
     const response = await axios.get(quoteEndpoint);
     const quote = response.data['Global Quote'];
+    console.log('quote:', response);
     return quote || null;
   } catch (error) {
     console.error(error);
