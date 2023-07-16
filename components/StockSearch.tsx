@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
 
-import {
-  View,
-  Button,
-  ScrollView,
-  useWindowDimensions,
-  Text,
-  TextInput,
-  FlatList,
-  StyleSheet,
-  Touchable,
-} from 'react-native';
+import { View, TextInput, StyleSheet, SafeAreaView } from 'react-native';
+import { SIZES, FONTS, COLORS } from '../constants/Theme';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
-const StockSearch = (props) => {
+interface StockSearchProps {
+  onResults: (results: any) => void;
+}
+
+const StockSearch: React.FC<StockSearchProps> = (props) => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
 
-  const search = async () => {
+  const handleSearch = async () => {
     console.log('SEARCHING', query);
     try {
       const response = await fetch(
@@ -30,31 +26,33 @@ const StockSearch = (props) => {
   };
 
   return (
-    <View style={styles.searchBar}>
+    <SafeAreaView style={styles.searchBar}>
+      <FontAwesomeIcon style={styles.searchIcon} icon={faSearch} />
       <TextInput
+        onSubmitEditing={handleSearch}
         value={query}
         onChangeText={(text) => setQuery(text)}
         placeholder='Search...'
       />
-      <Button title='Search' onPress={search} />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   searchBar: {
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    opacity: 0.7,
+    gap: 10,
     alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
+    backgroundColor: COLORS.dimmedWihte,
+    width: SIZES.width * 0.9,
     borderRadius: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: SIZES.paddingHorizontal * 1.5,
     paddingVertical: 5,
+    marginBottom: 20,
   },
   searchIcon: {
     marginRight: 5,
+    color: COLORS.gray,
   },
   searchInput: {
     flex: 1,

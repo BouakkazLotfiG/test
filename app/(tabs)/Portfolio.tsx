@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import { StyleSheet, ActivityIndicator, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  ActivityIndicator,
+  Text,
+  View,
+  SafeAreaView,
+} from 'react-native';
 
 //Components
 import StockGraphLarge from '../../components/StockGraphLarge';
@@ -39,7 +45,7 @@ export default function Portfolio() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <IconButton
@@ -120,7 +126,7 @@ export default function Portfolio() {
         onPress={() => navigation.navigate('Market')}
         text='Add to Portfolio'
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

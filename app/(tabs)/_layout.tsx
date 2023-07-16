@@ -1,23 +1,20 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme, View } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import { Tabs } from 'expo-router';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faMugSaucer } from '@fortawesome/free-solid-svg-icons/faMugSaucer';
-import Colors from '../../constants/Colors';
+
+import { COLORS } from '../../constants/Theme';
+
 import {
   faCircleHalfStroke,
   faMoneyBillTrendUp,
   faNewspaper,
 } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
 
 export default function TabLayout() {
   return (
     <>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: Colors.tabIconSelected,
+          tabBarActiveTintColor: COLORS.primary,
           headerShown: false,
           tabBarStyle: {
             backgroundColor: 'white',

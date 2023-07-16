@@ -26,8 +26,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.black,
     borderRadius: SIZES.radius,
     paddingVertical: SIZES.paddingVertical * 1.5,
+    paddingHorizontal: SIZES.paddingHorizontal * 2,
     marginBottom: 20,
-    marginHorizontal: 25,
+    marginHorizontal: 20,
   },
   AddButtonText: {
     fontSize: SIZES.h3,

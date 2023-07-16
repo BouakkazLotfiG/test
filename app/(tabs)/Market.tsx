@@ -8,27 +8,24 @@ import {
   FlatList,
   StyleSheet,
   Touchable,
+  SafeAreaView,
 } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { Ionicons } from '@expo/vector-icons';
-import Colors from '../../constants/Colors';
 
 import { fetchData } from '../../api';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from 'expo-router';
 import StockSearch from '../../components/StockSearch';
 import StockGraph from '../../components/StockGraph';
-import mockStockData from '../../mockData/mockStockData';
-import { faBars, faBell } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import Header from '../../components/Header';
+import { COLORS, SIZES } from '../../constants/Theme';
 
 export default function Market() {
-  const [fontLoaded, setFontLoaded] = useState(false);
-
   const layout = useWindowDimensions();
   const [searchResults, setSearchResults] = useState([]);
   const [data, setData] = useState([]);
   const [index, setIndex] = React.useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [routes] = React.useState([
     { key: 'first', title: 'Main Market' },
     { key: 'second', title: 'Junior Market' },
@@ -38,6 +35,7 @@ export default function Market() {
 
   useEffect(() => {
     const fetchAPI = async () => {
+      setIsLoading(true);
       const fetchedData = await fetchData();
       setSearchResults(fetchedData);
     };
@@ -49,11 +47,11 @@ export default function Market() {
 
   const DataList = (props) => (
     <ScrollView>
-      {props.data?.length === 0 ? (
+      {props.data?.length === 0 && isLoading ? (
         <Text>No stocks</Text>
       ) : (
         props.data?.map((item, index) => {
-          console.log('symbol ', item.quote);
+          // console.log('symbol ', item.quote);
           if (!item) {
             console.log('Undefined item at index', index);
             return null; // Render nothing for this item.
@@ -129,22 +127,12 @@ export default function Market() {
     />
   );
 
-  const Header = () => (
-    <View style={styles.headerContainer}>
-      <View style={styles.headerNavigation}>
-        <FontAwesomeIcon icon={faBars} size={23} color='white' />
-        <FontAwesomeIcon icon={faBell} size={23} color='white' />
-      </View>
-      <Text style={styles.headerText}>Markets</Text>
-      <View style={styles.searchContainer}>
-        <StockSearch onResults={setSearchResults} />
-      </View>
-    </View>
-  );
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Header />
+      <View style={styles.searchContainer}>
+        <StockSearch onResults={setSearchResults} />
+      </View>
 
       <TabView
         navigationState={{ index, routes }}
@@ -163,41 +151,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: '100%',
   },
-  headerContainer: {
-    height: '40%',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    gap: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 25,
-    paddingBottom: 20,
-    paddingTop: 70,
-    backgroundColor: Colors.tint,
-  },
-  headerNavigation: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  menuIcon: {
-    marginRight: 10,
-  },
-  headerText: {
-    width: '100%',
-    fontSize: 44,
-    fontFamily: 'Roboto-ExtraBold',
-    textAlign: 'left',
-
-    color: 'white',
-  },
   searchContainer: {
-    width: '100%',
+    width: SIZES.width,
+    backgroundColor: COLORS.primary,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  notificationIcon: {
-    marginLeft: 10,
-  },
-
   tabStyle: {
     width: 'auto',
   },
@@ -205,7 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
   },
   tabBarStyle: {
-    backgroundColor: Colors.tint,
+    backgroundColor: COLORS.primary,
     height: 70,
     paddingBottom: 5,
     fontSize: 30,

@@ -8,13 +8,15 @@ export default function index() {
   const navigation = useNavigation();
 
   const handleNavigateToTabs = () => {
-    navigation.navigate('index');
+    navigation.navigate('(tabs)', { screen: 'Market' });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Sorry, this page does not exist.</Text>
-      <TextButton text='Go back to Home' onPress={handleNavigateToTabs} />
+      <Text style={styles.header}>
+        Thank you for letting me be part of this frontend test with{' '}
+      </Text>
+      <TextButton text='Access the Stock APP' onPress={handleNavigateToTabs} />
     </SafeAreaView>
   );
 }

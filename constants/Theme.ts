@@ -6,6 +6,7 @@ export const COLORS = {
   secondary: '#5D2DFD', // Dark purple
 
   white: '#fff',
+  dimmedWihte: '#f5f6fa',
   black: '#000000',
   green: '#37E39F',
   red: '#e82e2e',
@@ -19,6 +20,7 @@ export const SIZES = {
   font: 14,
   radius: 12,
   padding: 24,
+  margin: 24,
   paddingHorizontal: 12,
   paddingVertical: 8,
 

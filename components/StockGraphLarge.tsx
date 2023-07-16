@@ -26,6 +26,8 @@ const StockGraphLarge: React.FC<StockGraphLargeProps> = (props) => {
       return { x: date, y: parseFloat(graphData[date as any]['4. close']) };
     }
   );
+  const [chartData, setChartData] = useState(formattedData);
+  const [selectedRange, setSelectedRange] = useState('1D');
 
   const [chartRange, setChartRange] = useState<{
     x: [number, number];
@@ -41,46 +43,31 @@ const StockGraphLarge: React.FC<StockGraphLargeProps> = (props) => {
   }, [chartRange]);
 
   const handleRangeButtonPress = (range: string) => {
-    let newRange: { x: [number, number]; y: [number, number] };
+    setSelectedRange(range);
+    let newData: StockData[];
 
     switch (range) {
       case '1D':
-        newRange = {
-          x: [0, 100],
-          y: chartRange.y,
-        };
+        newData = formattedData.slice(0, 10);
         break;
       case '1W':
-        newRange = {
-          x: [0, 150],
-          y: chartRange.y,
-        };
+        newData = formattedData.slice(0, 20);
         break;
       case '1M':
-        newRange = {
-          x: [0, 200],
-          y: chartRange.y,
-        };
+        newData = formattedData.slice(0, 30);
         break;
       case '3M':
-        newRange = {
-          x: [0, 40],
-          y: chartRange.y,
-        };
+        newData = formattedData.slice(0, 40);
         break;
       case '1Y':
-        newRange = {
-          x: [0, formattedData.length - 1],
-          y: chartRange.y,
-        };
+        newData = formattedData; // for 1Y, show all data
         break;
       default:
-        newRange = chartRange;
+        newData = formattedData; // default to all data
         break;
     }
 
-    console.log('chartRange', chartRange);
-    setChartRange(newRange);
+    setChartData(newData);
   };
 
   return (
@@ -101,24 +88,41 @@ const StockGraphLarge: React.FC<StockGraphLargeProps> = (props) => {
           }}
         />
         <VictoryLine
-          data={formattedData}
+          data={chartData}
           x='x'
           y='y'
           style={{
             data: { stroke: 'black' },
           }}
-          domain={{
-            x: [10, 50],
-          }}
         />
       </VictoryChart>
 
       <View style={styles.range}>
-        <RangeButton onPress={() => handleRangeButtonPress('1D')} text='1D' />
-        <RangeButton onPress={() => handleRangeButtonPress('1W')} text='1W' />
-        <RangeButton onPress={() => handleRangeButtonPress('1M')} text='1M' />
-        <RangeButton onPress={() => handleRangeButtonPress('3M')} text='3M' />
-        <RangeButton onPress={() => handleRangeButtonPress('1DY')} text='1Y' />
+        <RangeButton
+          onPress={() => handleRangeButtonPress('1D')}
+          text='1D'
+          selected={selectedRange === '1D'}
+        />
+        <RangeButton
+          onPress={() => handleRangeButtonPress('1W')}
+          text='1W'
+          selected={selectedRange === '1W'}
+        />
+        <RangeButton
+          onPress={() => handleRangeButtonPress('1M')}
+          text='1M'
+          selected={selectedRange === '1M'}
+        />
+        <RangeButton
+          onPress={() => handleRangeButtonPress('3M')}
+          text='3M'
+          selected={selectedRange === '3M'}
+        />
+        <RangeButton
+          onPress={() => handleRangeButtonPress('1Y')}
+          text='1Y'
+          selected={selectedRange === '1Y'}
+        />
       </View>
     </View>
   );
