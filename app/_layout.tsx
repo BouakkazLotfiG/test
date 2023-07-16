@@ -2,6 +2,8 @@ import { useNavigation, Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import SplashScreen from './SplashScreen';
 import * as Font from 'expo-font';
+import { Provider } from 'react-redux';
+import store from '../store';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -43,12 +45,12 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <>
+    <Provider store={store}>
       <Stack>
         <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
         <Stack.Screen name='index' options={{ headerShown: false }} />
         <Stack.Screen name='[...missing]' options={{ headerShown: false }} />
       </Stack>
-    </>
+    </Provider>
   );
 }

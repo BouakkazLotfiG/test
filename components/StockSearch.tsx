@@ -16,7 +16,7 @@ const StockSearch: React.FC<StockSearchProps> = (props) => {
     console.log('SEARCHING', query);
     try {
       const response = await fetch(
-        `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=L2VEXEMGRYKGZ2VF`
+        `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=${API_KEY}`
       );
       const json = await response.json();
       props.onResults(json.bestMatches);

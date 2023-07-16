@@ -5,7 +5,7 @@ export const COLORS = {
   primary: '#2c53f5', // Light purple
   secondary: '#5D2DFD', // Dark purple
 
-  white: '#fff',
+  white: '#FFFFFF',
   dimmedWihte: '#f5f6fa',
   black: '#000000',
   green: '#37E39F',

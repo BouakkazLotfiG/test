@@ -7,6 +7,8 @@ import {
   View,
   SafeAreaView,
 } from 'react-native';
+import { addStock } from '../../slices/userSlice';
+import { useDispatch } from 'react-redux';
 
 //Components
 import StockGraphLarge from '../../components/StockGraphLarge';
@@ -19,10 +21,11 @@ import { SIZES, FONTS, COLORS } from '../../constants/Theme';
 
 // Types
 import { StockData } from '../../types/index';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 type RootStackParamList = {
-  Portfolio: { stock: StockData }; // Define the stock property in the params
-  // Add other screen definitions if needed
+  Portfolio: { stock: StockData };
 };
 type PortfolioRouteProp = RouteProp<RootStackParamList, 'Portfolio'>;
 
@@ -31,13 +34,18 @@ export default function Portfolio() {
   const route = useRoute<PortfolioRouteProp>();
   const [selectedStock, setSelectedStock] = useState<StockData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const stock = useSelector((state: RootState) => state.stock);
+  const dispatch = useDispatch();
+  console.log('stock', stock.symbol);
+
+  const handleNavigateToTabs = () => {
+    navigation.navigate('(tabs)', { screen: 'Market' });
+  };
 
   useEffect(() => {
-    if (route.params?.stock) {
-      setSelectedStock(route.params.stock);
-      setIsLoading(false); // Set loading to false after fetching the data
-    }
-  }, [route.params]);
+    setSelectedStock(stock);
+    setIsLoading(false); // Set loading to false after fetching the data
+  }, [stock]);
 
   // Display a loading indicator while the data is being fetched
   if (isLoading) {
@@ -45,87 +53,110 @@ export default function Portfolio() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <IconButton
-          onPress={() => navigation.navigate('Market')}
-          icon={faChevronLeft}
-        />
-        <View>
-          <Text style={FONTS.h2}>{selectedStock?.symbol}</Text>
-          <Text style={styles.desc}>{selectedStock?.quote['01. symbol']}</Text>
+    <SafeAreaView>
+      {selectedStock?.symbol === '' ? (
+        <View style={styles.container}>
+          <View style={styles.emptyStock}>
+            <Text style={styles.emptyStockText}>No Stock to display</Text>
+            <TextButton
+              text='Access the Stock Market'
+              onPress={handleNavigateToTabs}
+            />
+          </View>
         </View>
-      </View>
+      ) : (
+        <View style={styles.container}>
+          {/* Header */}
+          <View style={styles.header}>
+            <IconButton
+              onPress={() => navigation.navigate('Market')}
+              icon={faChevronLeft}
+            />
+            <View>
+              <Text style={FONTS.h2}>{selectedStock?.symbol}</Text>
+              <Text style={styles.desc}>
+                {selectedStock?.quote['01. symbol']}
+              </Text>
+            </View>
+          </View>
 
-      {/* Rate */}
-      <View style={styles.rate}>
-        <Text style={FONTS.h1}>${selectedStock?.quote['05. price']}</Text>
+          {/* Rate */}
+          <View style={styles.rate}>
+            <Text style={FONTS.h1}>${selectedStock?.quote['05. price']}</Text>
 
-        <Text
-          style={
-            parseFloat(
-              selectedStock?.quote['10. change percent']?.replace('%', '') ?? ''
-            ) > 0
-              ? [styles.pourcentageUP, styles.percent]
-              : [styles.pourcentageDOWN, styles.percent]
-          }
-        >
-          {selectedStock &&
-          +selectedStock.quote['10. change percent']?.replace('%', '') > 0
-            ? '$' +
-              '+' +
-              selectedStock?.quote['09. change'] +
-              ' (' +
-              selectedStock?.quote['10. change percent'] +
-              ')'
-            : '$' +
-              selectedStock?.quote['09. change'] +
-              ' (' +
-              selectedStock?.quote['10. change percent'] +
-              ')'}
-        </Text>
-      </View>
+            <Text
+              style={
+                parseFloat(
+                  selectedStock?.quote['10. change percent']?.replace(
+                    '%',
+                    ''
+                  ) ?? ''
+                ) > 0
+                  ? [styles.pourcentageUP, styles.percent]
+                  : [styles.pourcentageDOWN, styles.percent]
+              }
+            >
+              {selectedStock &&
+              +selectedStock.quote['10. change percent']?.replace('%', '') > 0
+                ? '$' +
+                  '+' +
+                  selectedStock?.quote['09. change'] +
+                  ' (' +
+                  selectedStock?.quote['10. change percent'] +
+                  ')'
+                : '$' +
+                  selectedStock?.quote['09. change'] +
+                  ' (' +
+                  selectedStock?.quote['10. change percent'] +
+                  ')'}
+            </Text>
+          </View>
 
-      {/* Graph */}
-      <View style={styles.graph}>
-        <StockGraphLarge graphData={selectedStock?.graph} />
-      </View>
+          {/* Graph */}
+          <View style={styles.graph}>
+            <StockGraphLarge graphData={selectedStock?.graph} />
+          </View>
 
-      {/* info */}
-      <View style={styles.info}>
-        <View style={styles.infoItem}>
-          <Text style={styles.infoTitle}>Close Price</Text>
-          <Text style={styles.infoValue}>
-            ${selectedStock?.quote['08. previous close']}
-          </Text>
+          {/* info */}
+          <View style={styles.info}>
+            <View style={styles.infoItem}>
+              <Text style={styles.infoTitle}>Close Price</Text>
+              <Text style={styles.infoValue}>
+                ${selectedStock?.quote['08. previous close']}
+              </Text>
+            </View>
+            <View style={styles.infoItem}>
+              <Text style={styles.infoTitle}>Last trade price</Text>
+              <Text style={styles.infoValue}>
+                ${selectedStock?.quote['08. previous close']}
+              </Text>
+            </View>
+            <View style={styles.infoItem}>
+              <Text style={styles.infoTitle}>Outstanding</Text>
+              <Text style={styles.infoValue}>
+                ${selectedStock?.quote['08. previous close']}
+              </Text>
+            </View>
+            <View style={styles.infoItem}>
+              <Text style={styles.infoTitle}>Market Value</Text>
+              <Text style={styles.infoValue}>
+                ${selectedStock?.quote['06. volume']}
+              </Text>
+            </View>
+          </View>
+
+          {/* add to portfolio button */}
+
+          <TextButton
+            onPress={() => {
+              navigation.navigate('Market');
+
+              dispatch(addStock(selectedStock));
+            }}
+            text='Add to Portfolio'
+          />
         </View>
-        <View style={styles.infoItem}>
-          <Text style={styles.infoTitle}>Last trade price</Text>
-          <Text style={styles.infoValue}>
-            ${selectedStock?.quote['08. previous close']}
-          </Text>
-        </View>
-        <View style={styles.infoItem}>
-          <Text style={styles.infoTitle}>Outstanding</Text>
-          <Text style={styles.infoValue}>
-            ${selectedStock?.quote['08. previous close']}
-          </Text>
-        </View>
-        <View style={styles.infoItem}>
-          <Text style={styles.infoTitle}>Market Value</Text>
-          <Text style={styles.infoValue}>
-            ${selectedStock?.quote['06. volume']}
-          </Text>
-        </View>
-      </View>
-
-      {/* add to portfolio button */}
-
-      <TextButton
-        onPress={() => navigation.navigate('Market')}
-        text='Add to Portfolio'
-      />
+      )}
     </SafeAreaView>
   );
 }
@@ -193,6 +224,16 @@ const styles = StyleSheet.create({
   },
   infoValue: {
     fontSize: SIZES.h3,
+    fontFamily: 'Roboto-ExtraBold',
+  },
+  emptyStock: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 15,
+  },
+  emptyStockText: {
+    fontSize: SIZES.h2,
     fontFamily: 'Roboto-ExtraBold',
   },
 });

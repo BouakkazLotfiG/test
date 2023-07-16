@@ -27,7 +27,7 @@ const StockGraphLarge: React.FC<StockGraphLargeProps> = (props) => {
     }
   );
   const [chartData, setChartData] = useState(formattedData);
-  const [selectedRange, setSelectedRange] = useState('1D');
+  const [selectedRange, setSelectedRange] = useState('1Y');
 
   const [chartRange, setChartRange] = useState<{
     x: [number, number];

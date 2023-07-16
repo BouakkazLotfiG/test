@@ -21,13 +21,19 @@ const RangeButton: React.FC<RangeButtonProps> = ({
 }) => {
   return (
     <TouchableOpacity
+      testID='range-button'
       onPress={onPress}
       style={[
         styles.button,
         selected ? styles.selectedButton : styles.unselectedButton,
       ]}
     >
-      <Text style={selected ? styles.selectedText : styles.unselectedText}>
+      <Text
+        style={[
+          styles.text,
+          selected ? styles.selectedText : styles.unselectedText,
+        ]}
+      >
         {text}
       </Text>
     </TouchableOpacity>
@@ -47,18 +53,16 @@ const styles = StyleSheet.create({
     borderColor: COLORS.lightGray,
     borderWidth: 1,
   },
-  selectedText: {
+  text: {
     fontSize: SIZES.h4,
-
-    color: COLORS.white,
     padding: SIZES.padding * 0.25,
     alignSelf: 'center',
   },
+  selectedText: {
+    color: COLORS.white,
+  },
   unselectedText: {
-    fontSize: SIZES.h4,
     color: COLORS.black,
-    padding: SIZES.padding * 0.25,
-    alignSelf: 'center',
   },
 });
 

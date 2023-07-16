@@ -11,6 +11,8 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectedStock } from '../../slices/stockSlice';
 
 import { fetchData } from '../../api';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -19,6 +21,7 @@ import StockSearch from '../../components/StockSearch';
 import StockGraph from '../../components/StockGraph';
 import Header from '../../components/Header';
 import { COLORS, SIZES } from '../../constants/Theme';
+import { RootState } from '../../store';
 
 export default function Market() {
   const layout = useWindowDimensions();
@@ -26,6 +29,7 @@ export default function Market() {
   const [data, setData] = useState([]);
   const [index, setIndex] = React.useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const [routes] = React.useState([
     { key: 'first', title: 'Main Market' },
     { key: 'second', title: 'Junior Market' },
@@ -60,7 +64,10 @@ export default function Market() {
             <TouchableOpacity
               style={styles.wrapper}
               key={index}
-              onPress={() => navigation.navigate('Portfolio', { stock: item })}
+              onPress={() => {
+                navigation.navigate('Portfolio', { stock: item });
+                dispatch(selectedStock(item));
+              }}
             >
               <View style={styles.listItem}>
                 <View style={{ width: '25%' }}>

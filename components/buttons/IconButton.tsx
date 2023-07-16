@@ -15,7 +15,11 @@ interface IconButtonProps {
 
 const IconButton: React.FC<IconButtonProps> = ({ onPress, icon }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.buttonContainer}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={styles.buttonContainer}
+      testID='icon-button'
+    >
       <FontAwesomeIcon icon={icon} color='black' size={22} />
     </TouchableOpacity>
   );
