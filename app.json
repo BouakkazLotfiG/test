@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "test",
-    "slug": "test",
+    "name": "Stock App",
+    "slug": "stock-app",
+    "description": "a stock app built with react native, for the frontend test at InvestSky",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

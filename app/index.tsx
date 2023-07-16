@@ -1,4 +1,11 @@
-import { View, Text, SafeAreaView, Button, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Button,
+  StyleSheet,
+  ImageBackground,
+} from 'react-native';
 import React from 'react';
 import { useNavigation } from 'expo-router';
 import TextButton from '../components/buttons/TextButton';
@@ -12,24 +19,30 @@ export default function index() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>
+    <ImageBackground source={require('../assets/images/splash.png')}>
+      <SafeAreaView style={styles.container}>
+        {/* <Text style={styles.header}>
         Thank you for letting me be part of this frontend test with{' '}
-      </Text>
-      <TextButton text='Access the Stock APP' onPress={handleNavigateToTabs} />
-    </SafeAreaView>
+      </Text> */}
+        <TextButton
+          text='Access the Stock APP'
+          onPress={handleNavigateToTabs}
+        />
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.primary,
+    i: 'URL(../../assets/images/splash.png)',
     width: SIZES.width,
-    height: SIZES.height,
+    height: '100%',
 
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: '80%',
 
     paddingHorizontal: SIZES.paddingHorizontal,
   },

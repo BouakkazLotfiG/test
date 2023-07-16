@@ -1,6 +1,6 @@
 import { useNavigation, Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
-import SplashScreen from './SplashScreen';
+
 import * as Font from 'expo-font';
 import { Provider } from 'react-redux';
 import store from '../store';
@@ -29,10 +29,6 @@ export default function RootLayout() {
   useEffect(() => {
     loadFonts();
   }, []);
-
-  if (!fontsLoaded) {
-    return <SplashScreen />;
-  }
 
   return <RootLayoutNav />;
 }
