@@ -43,15 +43,15 @@ export default function Portfolio() {
     navigation.navigate('(tabs)', { screen: 'Market' });
   };
 
-  const showToast = () => {
+  const showToast = (symbol: string) => {
     Toast.show({
       type: 'success',
-      text1: 'Successfully added stock to tour profile',
+      text1: `Successfully added ${symbol} to tour profile`,
     });
   };
   useEffect(() => {
     setSelectedStock(stock);
-    setIsLoading(false); // Set loading to false after fetching the data
+    setIsLoading(false);
   }, [stock]);
 
   // Display a loading indicator while the data is being fetched
@@ -157,7 +157,7 @@ export default function Portfolio() {
           <TextButton
             onPress={() => {
               navigation.navigate('Market');
-              showToast();
+              showToast(selectedStock?.symbol ?? '');
               dispatch(addStock(selectedStock));
             }}
             text='Add to Portfolio'
@@ -171,7 +171,8 @@ export default function Portfolio() {
 const styles = StyleSheet.create({
   container: {
     paddingTop: SIZES.padding * 2,
-    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'space-around',
     gap: 15,
     backgroundColor: COLORS.white,
     width: SIZES.width,
@@ -209,9 +210,6 @@ const styles = StyleSheet.create({
     color: COLORS.red,
   },
 
-  graph: {
-    flexGrow: 1,
-  },
   info: {
     flexDirection: 'column',
     justifyContent: 'space-between',
